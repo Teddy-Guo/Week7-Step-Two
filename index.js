@@ -8,7 +8,7 @@ let Datastore = require('nedb');
 let db = new Datastore('coffee.db');
 db.loadDatabase();
 
-let coffeeTracker = [];
+let workoutTracker = [];
 
 // app.get('/',(req,res) => {
 //     res.send('Hey this is the main page');
@@ -17,27 +17,27 @@ let coffeeTracker = [];
 
 //2. add a route on server, that is listening for a post request
 
-app.post('/noCups',(req,res) => {
+app.post('/noMins',(req,res) => {
     console.log(req.body);
     let currentDate = Date();
     let obj = {
         date: currentDate,
-        coffee: req.body.cups
+        workout: req.body.mins
     }
-    
-    //inseret coffee data into the database 
+
+    //inseret workout data into the database 
     db.insert(obj,(err,newDocs) => {
         // console.log('insered_new_document');
         if(err) {
-            res.json({task:"Task Failled"});
+            res.json({task:"Task Failed"});
         } else {
             res.json({task:"Success"});
             }
         })
        
     })
-    // coffeeTracker.push(obj);
-    // console.log(coffeeTracker);
+    // workoutTracker.push(obj);
+    // console.log(workoutTracker);
 
 
 
@@ -48,25 +48,25 @@ app.listen(5000,() => {
 })
 
 
-//add route to get all coffee track information
-app.get('/getCups', (req,res) => {
+//add route to get all workout track information
+app.get('/getMins', (req,res) => {
 
     db.find({},(err,docs)=>{
         if(err){
-            res.json({task:"Task Failled"})
+            res.json({task:"Task Failed"})
         }else{
             let obj= {data: docs};
             res.json(obj);
         }
     })
 
-    // let obj = { data: coffeeTracker};
+    // let obj = { data: workoutTracker};
     // res.json(obj);
 })
 
-// //ad route to get all the coffee track information
-// app.get('getCups', (req,res)=>{
-//     let obj = {data: coffeeTracker};
+// //ad route to get all the workout track information
+// app.get('getMins', (req,res)=>{
+//     let obj = {data: workoutTracker};
 //     res.json(obj);
 // })
 
